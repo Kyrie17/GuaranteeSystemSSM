@@ -29,5 +29,7 @@
         <mapper resource="/mapper/ManagerLoginMapper.xml"></mapper>
         <!--报修评价-->
         <mapper resource="/mapper/ScoreMapper.xml"></mapper>
+        <!--报修功能-->
+        <mapper resource="/mapper/RepairFormMapper.xml"></mapper>
     </mappers>
 </configuration>

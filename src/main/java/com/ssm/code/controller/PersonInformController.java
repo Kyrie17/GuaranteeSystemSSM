@@ -54,8 +54,9 @@ public class PersonInformController {
     @RequestMapping("/improveInform")
     @ResponseBody
     public int improveInform(@RequestBody PersonInform personInform){
+        System.out.println(personInform);
         boolean stuId=personInform.getStuId()==null;
-        boolean area=(personInform.getArea()!="1"&&personInform.getArea()!="0");
+        boolean area=(! personInform.getArea().equals("1")&&!personInform.getArea().equals("0"));
         boolean build=personInform.getBuild()==null;
         boolean sex=(personInform.getSex()!=1&&personInform.getSex()!=0);
         boolean room=personInform.getRoom()==null;
@@ -63,6 +64,7 @@ public class PersonInformController {
             return 1;
         }
         int answer=personInformService.improveInform(personInform);
+        System.out.println(answer);
         if(answer!=0){
             return 1;
         }else{
