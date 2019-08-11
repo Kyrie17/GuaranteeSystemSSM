@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置分页插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"></property>
+        </plugin>
+    </plugins>
+
+    <mappers>
+        <!--注册功能-->
+        <mapper resource="/mapper/RegisterMapper.xml"></mapper>
+        <!--学生登录功能-->
+        <mapper resource="/mapper/StudentLoginMapper.xml"></mapper>
+        <!--服务信息获取-->
+        <mapper resource="/mapper/NoticeInformMapper.xml"></mapper>
+        <!--数据分析-->
+        <mapper resource="/mapper/AnalyzeDataMapper.xml"></mapper>
+        <!--商品购买-->
+        <mapper resource="/mapper/CommidityMapper.xml"></mapper>
+        <!--个人信息功能-->
+        <mapper resource="/mapper/PersonInformMapper.xml"></mapper>
+        <!--工人端登录-->
+        <mapper resource="/mapper/WorkerLoginMapper.xml"></mapper>
+        <!--管理端登录-->
+        <mapper resource="/mapper/ManagerLoginMapper.xml"></mapper>
+        <!--报修评价-->
+        <mapper resource="/mapper/ScoreMapper.xml"></mapper>
+    </mappers>
+</configuration>

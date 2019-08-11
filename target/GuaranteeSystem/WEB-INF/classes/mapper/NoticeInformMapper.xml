@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.code.dao.NoticeInformMapper">
+    <select id="getHomePageNotice" resultType="com.ssm.code.pojo.NoticeInform">
+        select * from noticeInform order by upLoadDate DESC limit #{num}
+    </select>
+
+    <select id="getAllNotice" resultType="com.ssm.code.pojo.NoticeInform">
+        select * from noticeInform
+    </select>
+
+    <select id="findPath" resultType="String">
+        select filePath from noticeinform where fileName=#{fileName}
+    </select>
+</mapper>

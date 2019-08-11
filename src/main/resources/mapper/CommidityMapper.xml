@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.code.dao.CommidityMapper">
+    <!--判断商品是否已经存在-->
+    <select id="judgeIfExist" resultType="int">
+        select count(quantity) from studentpurchase where (stu_id=#{stuId} and commidity_id=#{id})
+    </select>
+    <!--添加购物车-->
+    <update id="addCart" >
+        update studentpurchase set quantity=#{num} where (stu_id=#{stuId} and commidity_id=#{id})
+    </update>
+    <!--向购物车中插入商品-->
+    <insert id="insertCart" >
+        insert into studentpurchase
+        (stu_id,commidity_id,quantity,commidity_name,price) values(#{stuId},#{commidity.commidityId},#{judge},#{commidity.commidityName},#{commidity.commidityPrice})
+    </insert>
+    <resultMap id="allPersonCommidity" type="com.ssm.code.pojo.Commidity">
+        <id column="commidity_id" property="commidityId"></id>
+        <result column="quantity" property="quantity"></result>
+        <result column="commidity_name" property="commidityName"></result>
+        <result column="price" property="commidityPrice"></result>
+    </resultMap>
+    <!--用户购物车内所有商品-->
+    <select id="getAllPersonCommidity" resultMap="allPersonCommidity" >
+        select commidity_id,commidity_name,quantity,price from studentpurchase where stu_id=#{stuId}
+    </select>
+
+    <delete id="deleteChart">
+        delete from studentpurchase where stu_id=#{stuId}
+    </delete>
+    
+    <select id="commidityCount" resultType="Integer">
+        select quantity from studentpurchase where (stu_id=#{stuId} and commidity_name=#{commidityName})
+    </select>
+    
+    <delete id="deletecommidity">
+        delete from studentpurchase where (stu_id=#{stuId} and commidity_name=#{commidityName})
+    </delete>
+
+    <update id="decreasecommidity">
+        update studentpurchase set quantity=quantity-1 where (stu_id=#{stuId} and commidity_name=#{commidityName})
+    </update>
+</mapper>

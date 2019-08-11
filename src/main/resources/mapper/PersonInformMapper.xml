@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.code.dao.PersonInformMapper">
+    <select id="getAllArea" resultType="com.ssm.code.pojo.Area">
+        select * from area
+    </select>
+
+    <select id="getAllBuildByArea" resultType="com.ssm.code.pojo.Build">
+        select * from build where code =#{code}
+    </select>
+    
+    <update id="improveInform">
+        update student set room=#{personInform.room},sex=#{personInform.sex},
+        area=#{personInform.area},build=#{personInform.build} where stu_id=#{personInform.stuId}
+    </update>
+
+    <select id="judgePassword" resultType="int">
+        select count(*) from student where (password=#{oldPassword} and stu_id=#{stuId})
+    </select>
+
+    <update id="modifyPassword" >
+        update student set password=#{newPassword} where stu_id=#{stuId}
+    </update>
+
+    <select id="getTime" resultType="String">
+        select timestamp from student where stu_id=#{stuId}
+    </select>
+</mapper>

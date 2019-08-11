@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.code.dao.AnalyzeDataMapper">
+    <!--获得维修类别-->
+    <select id="getSertype" resultType="int">
+      select count(r_sertype) from repairform where r_sertype=#{num}
+    </select>
+    <!--获得维修状态-->
+    <select id="getJudgestate" resultType="int">
+       select count(r_judgestate) from repairform where r_judgestate=#{num}
+    </select>
+    <!--获得维修时间-->
+    <select id="getSertime" resultType="int">
+       select  count(r_sertime) from repairform where SUBSTRING(r_sertime, 1,7)=#{month}
+    </select>
+    <!--获得管理员-->
+    <select id="getMajor" resultType="int">
+       select count(a_major) from admin where a_major=#{num}
+    </select>
+</mapper>
