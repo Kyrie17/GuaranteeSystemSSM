@@ -17,6 +17,9 @@ public class LoginState {
      */
     private String stuId;
 
+    private Student student;
+
+
     public LoginState() {
     }
 
@@ -39,5 +42,13 @@ public class LoginState {
 
     public void setStuId(String stuId) {
         this.stuId = stuId;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }

@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/sweetalert2.css">
     <script type="text/javascript" src="/js/index.js"></script>
     <script type="text/javascript" src="/js/GetHomeCommidity.js"></script>
-    <script type="text/javascript" src="js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="/js/judgeLoginState.js"></script>
     <link rel="stylesheet" type="text/css" href="/iconfont/iconfont.css">
     <link rel="stylesheet" type="text/css" href="/iconfont2/iconfont.css">
@@ -81,15 +81,15 @@
                     <div class="eat001">
                         <div class="repair_top">
                             <ul>
-                                <li style="float:left;" id="btn1">
+                                <li style="float:left;">
                                     <i class="iconfont icon-cesuo"></i>
                                 </li>
                                 <li><i class="iconfont icon-dengpao"></i></li>
                             </ul>
                         </div>
                         <div>
-                            <span class="repair_word"><a href="">厕所</a></span>
-                            <span class="repair_word"><a href="">灯泡</a></span>
+                            <span class="repair_word"><a href="#">厕所</a></span>
+                            <span class="repair_word"><a href="#">灯泡</a></span>
                         </div>
                     </div>
                     <div class="eat002">
@@ -257,7 +257,7 @@
                         <span class="main_tit_word">报修信息</span>
                         <span class="main_tit_word" style="color: #ccc;font-size: 20px;">/REPAIR INFORMATION</span>
                         <span class="more"><a href="/html/repair.html">查看更多</a></span>
-                        <span class="more"><a href="/html/Person.html">我的报修</a></span>
+                        <span class="more"><a href="/html/person.html">我的报修</a></span>
                     </div>
                     <div class="repair_con">
                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -663,9 +663,13 @@
                     "token": getCookie("cookie")
                 };
                 $.post(url, args, function (data) {
-                    if (data.code == "1") {
+                    if (data.State.loginState == "已登录") {
                         var username = document.getElementById("username");
-                        username.value = data.data;
+                        var phone = document.getElementById("phone");
+                        var serAdd = document.getElementById("serAdd");
+                        username.value = data.State.student.stuId;
+                        phone.value = data.State.student.phone;
+                        serAdd.value = data.State.student.area+data.State.student.build+data.State.student.room;
                     } else {
                         //login_span.innerHTML="";
                         //var btn=document.getElementById("repair_btn");
@@ -674,8 +678,7 @@
                     }
                 });
             } else {
-                //swal("提示", "请先完善个人信息", "warning");
-                alert("请先完善个人信息");
+                swal("提示", "请先完善个人信息", "warning");
             }
         });
         var photo = document.getElementById("fileChoosed");
@@ -709,6 +712,62 @@
         }
     }
 </script>
+
+
+<script type="text/javascript">
+    $.ajax({
+        type: "post",
+        url: "/repair/getLastestRF",
+        success: function(data){
+
+            var str = "";
+            for(var k in data){
+                //将数据库中保存的报修类型参数，转换为文字
+                var serType = "";
+                switch(data[k].serType)
+                {
+                    case 1:
+                        serType = "水";
+                        break;
+                    case 2:
+                        serType = "木";
+                        break;
+                    case 3:
+                        serType = "电";
+                        break;
+                    case 4:
+                        serType = "其他";
+                        break;
+                }
+                //将数据库中保存的报修类型参数，转换为文字
+                var judgeState = "";
+                switch(data[k].judgeState)
+                {
+                    case -1:
+                        judgeState = "未审核";
+                        break;
+                    case 1:
+                        judgeState = "已审核";
+                        break;
+                    case 2:
+                        judgeState = "已完成";
+                        break;
+                }
+                if (data[k] == null) {
+                    str += "<tr></tr>";
+                } else {
+                    str += "<tr><th>" + serType + "</th>"
+                        + "<th>" + data[k].serInform + "</th>"
+                        + "<th>" + data[k].username + "</th>"
+                        + "<th>" + data[k].serTime + "</th>"
+                        + "<th>" + judgeState+ "</th></tr>";
+                }
+            }
+            $("#repair_infor").html(str);
+        }
+    });
+</script>
+
 <!--年度保修总结-->
 <script type="text/javascript">
     var summary_con = document.getElementById("summary_con");

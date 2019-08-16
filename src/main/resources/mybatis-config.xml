@@ -31,5 +31,7 @@
         <mapper resource="/mapper/ScoreMapper.xml"></mapper>
         <!--报修功能-->
         <mapper resource="/mapper/RepairFormMapper.xml"></mapper>
+        <!-- 获取维修工人 -->
+        <mapper resource="/mapper/RepairManMapper.xml"></mapper>
     </mappers>
 </configuration>

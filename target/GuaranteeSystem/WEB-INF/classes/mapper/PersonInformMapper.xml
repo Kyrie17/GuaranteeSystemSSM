@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssm.code.dao.PersonInformMapper">
+
     <select id="getAllArea" resultType="com.ssm.code.pojo.Area">
         select * from area
     </select>
@@ -26,5 +27,9 @@
 
     <select id="getTime" resultType="String">
         select timestamp from student where stu_id=#{stuId}
+    </select>
+
+    <select id="getStudent" resultType="com.ssm.code.pojo.Student">
+        select stu_id stuId, phone, area, build, room from student where stu_id = #{stuId}
     </select>
 </mapper>

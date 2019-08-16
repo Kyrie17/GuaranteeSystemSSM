@@ -3,10 +3,13 @@ package com.ssm.code.dao;
 import com.ssm.code.pojo.Area;
 import com.ssm.code.pojo.Build;
 import com.ssm.code.pojo.PersonInform;
+import com.ssm.code.pojo.Student;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+
 @Repository
 public interface PersonInformMapper {
 
@@ -52,4 +55,9 @@ public interface PersonInformMapper {
      * @return
      */
     List<String> getTime(@Param("stuId") String stuId);
+
+    /**
+     * 获取学生的联系方式及联系地址
+     */
+    Student getStudent(String stuId);
 }

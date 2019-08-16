@@ -3,8 +3,80 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssm.code.dao.RepairFormMapper">
+
+    <resultMap id="repairFormResultMap" type="com.ssm.code.pojo.RepairForm">
+        <id column="r_ordernumber" property="orderNumber"/>
+        <result column="s_id" property="username"/>
+        <result column="s_phone" property="phone"/>
+        <result column="r_sertype" property="serType"/>
+        <result column="r_seradd" property="serAdd"/>
+        <result column="r_serinform" property="serInform"/>
+        <result column="r_sertime" property="serTime"/>
+        <result column="r_detailtime" property="detailTime"/>
+        <result column="r_judgestate" property="judgeState"/>
+        <result column="a_id" property="repairMan"/>
+        <result column="r_submittime" property="submitTime"/>
+        <result column="r_userconfirm" property="userConfirm"/>
+        <result column="r_filepath" property="file_path"/>
+    </resultMap>
+
     <select id="judgeFinshInform" resultType="Integer">
         select count(*) from student where stu_id = #{stuId} and
         (area IS NULL or build IS NULL or room IS null or sex IS null)
     </select>
+
+    <select id="getRepairMan" resultType="String">
+        SELECT DISTINCT a_id username FROM repairform WHERE r_sertype = #{serType}
+    </select>
+
+    <select id="getRepairManNum" resultType="Integer">
+        SELECT count(*) FROM repairform WHERE a_id=#{repairMan}
+    </select>
+
+    <insert id="submitRepairForm">
+        insert into repairform(s_id,s_phone,r_sertype,r_seradd,r_serinform,r_sertime,r_detailtime,r_judgestate,r_filepath,a_id) values(#{username},#{phone},#{serType},#{serAdd},#{serInform},#{serTime},#{detailTime},#{judgeState},#{file_path},#{repairMan})
+    </insert>
+
+    <select id="getLastestRF" resultMap="repairFormResultMap">
+        SELECT * FROM repairform order by r_ordernumber DESC limit #{nums}
+    </select>
+
+    <select id="getUnfinishedRF" resultMap="repairFormResultMap">
+        SELECT * FROM repairform WHERE r_judgestate IN (-1,1) and s_id=#{username}
+    </select>
+
+    <select id="getFinishedRF" resultMap="repairFormResultMap">
+        SELECT * FROM repairform WHERE r_judgestate=2 and r_userconfirm=#{userConfirm} and s_id=#{username}
+    </select>
+
+    <update id="ChangeUserConfirm">
+        update repairform set r_userconfirm=1 where r_ordernumber=#{orderNumber}
+    </update>
+
+    <select id="getRFByOrderNum" resultMap="repairFormResultMap">
+        SELECT * FROM repairform where r_ordernumber=#{orderNumber}
+    </select>
+
+    <select id="getAllRF" resultMap="repairFormResultMap">
+        select * from repairform
+        <where>
+            <if test="username!=null and username!=''">
+                and s_id like "%${username}%"
+            </if>
+            <if test="serType!=0">
+                and r_sertype = #{serType}
+            </if>
+            <if test="judgeState!=0">
+                and r_judgestate = #{judgeState}
+            </if>
+        </where>
+    </select>
+
+    <delete id="removeRF">
+        delete from repairform where r_ordernumber=#{orderNumber}
+    </delete>
+
+    <update id="updateRFInfor">
+        update repairform set r_judgestate=#{judgeState},a_id=#{repairMan} where r_ordernumber=#{orderNumber}
+    </update>
 </mapper>

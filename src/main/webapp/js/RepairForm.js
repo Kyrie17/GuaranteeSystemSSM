@@ -10,7 +10,7 @@
 	function nextPage(){
 		var currentPage = document.getElementById("currentPage").innerHTML;
 		var totalPage = document.getElementById("totalPage").innerHTML;
-		if(currentPage < totalPage){
+        if(parseInt(currentPage) < parseInt(totalPage)){
 			var currentPage = parseInt(document.getElementById("currentPage").innerHTML) + 1;
 			document.getElementById("currentPage").innerHTML = "" + currentPage;
 			Filter();
@@ -53,15 +53,15 @@
 		if(currentPage == "" || currentPage == "0"){
 			currentPage = 1;
 		}
-		var url = "http://localhost:8080/SublistServlet";
-		var args = {"time":new Date(),"username":username,"pageNum":currentPage,"serType":serType,"judgeState":judgeState};
+		var url = "http://localhost:8080/repair/getAllRF";
+		var args = {"time":new Date(),"username": username,"pageNum":currentPage,"serType":serType,"judgeState":judgeState};
 		$.getJSON(url, args, function(data){
 			var str = "";
 
-			for(var k in data.data.dataList){
+			for(var k in data.repairForms){
 				//将数据库中保存的报修类型参数，转换为文字
 				var serType = "";
-				switch(data.data.dataList[k].serType)
+				switch(data.repairForms[k].serType)
 				{
 				case 1:
 				  serType = "水";
@@ -78,7 +78,7 @@
 				}
 				//将数据库中保存的报修类型参数，转换为文字
 				var judgeState = "";
-				switch(data.data.dataList[k].judgeState)
+				switch(data.repairForms[k].judgeState)
 				{
 				case -1:
 				  judgeState = "未审核";
@@ -91,18 +91,18 @@
 				  break;
 				}
 				str += "<tr>"/*<td>" + data.data.dataList[k].odata.data.dataList[k].usernamerderNumber + "</td>"
-*/				+ "<th id='username' name='username'>" +  + "</th>"
-				+ "<th id='phone' name='phone'>" + data.data.dataList[k].phone + "</th>"
+*/				+ "<th id='username' name='username'>" + data.repairForms[k].username + "</th>"
+				+ "<th id='phone' name='phone'>" + data.repairForms[k].phone + "</th>"
 				+ "<th id='serType' name='serType'>" + serType + "</th>"
-				+ "<th id='serInform' name='serInform'>" + data.data.dataList[k].serInform + "</th>"
-				+ "<th id='serTime' name='serTime'>" + data.data.dataList[k].serTime + "</th>"
-				+ "<th id='serAdd' name='serAdd'>" + data.data.dataList[k].serAdd + "</th>"
+				+ "<th id='serInform' name='serInform'>" + data.repairForms[k].serInform + "</th>"
+				+ "<th id='serTime' name='serTime'>" + data.repairForms[k].serTime + "</th>"
+				+ "<th id='serAdd' name='serAdd'>" + data.repairForms[k].serAdd + "</th>"
 				+ "<th id='repair_state' name='repair_state'>" + judgeState + "</th></tr>";
 			}
 			$("#content").html(str);
-			$("#currentPage").text(data.data.currentPage);
-			$("#totalRecord").text(data.data.totalRecord);
-			$("#totalPage").text(data.data.totalPage);
+			$("#currentPage").text(data.currentPage);
+			$("#totalRecord").text(data.total);
+			$("#totalPage").text(data.totalPage);
 		}); 
 	}
 	

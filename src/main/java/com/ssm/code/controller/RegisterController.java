@@ -64,7 +64,6 @@ public class RegisterController {
             //获取验证码
             mess.put("mess", message.getRod());
         } catch (Exception e) {
-            e.printStackTrace();
             mess.put("mess", "发送失败");
         }finally {
             return mess;

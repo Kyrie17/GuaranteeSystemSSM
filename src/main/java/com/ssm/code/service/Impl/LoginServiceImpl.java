@@ -1,7 +1,9 @@
 package com.ssm.code.service.Impl;
 
+import com.ssm.code.dao.PersonInformMapper;
 import com.ssm.code.dao.StudentLoginMapper;
 import com.ssm.code.pojo.LoginState;
+import com.ssm.code.pojo.Student;
 import com.ssm.code.service.StudentLoginService;
 import com.ssm.code.tools.CommonUtils;
 import com.ssm.code.tools.Md5Utils;
@@ -25,6 +27,8 @@ public class LoginServiceImpl implements StudentLoginService {
     @Autowired
     StudentLoginMapper studentLoginMapper;
 
+    @Autowired
+    PersonInformMapper personInformMapper;
 
     /**
      * 用于学生登录
@@ -62,7 +66,9 @@ public class LoginServiceImpl implements StudentLoginService {
         LoginState loginState=new LoginState();
         try{
             stuId= CommonUtils.parseJWT(token).getSubject();
+            Student student = personInformMapper.getStudent(stuId);
             loginState.setLoginState("已登录");
+            loginState.setStudent(student);
             loginState.setStuId(stuId);
         }catch (Exception e){
             e.printStackTrace();
@@ -72,6 +78,5 @@ public class LoginServiceImpl implements StudentLoginService {
             map.put("State",loginState);
             return map;
         }
-
     }
 }

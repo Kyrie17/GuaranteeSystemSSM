@@ -16,7 +16,7 @@
         <property name="user" value="root"></property>
         <property name="password" value="89894148"></property>
         <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/guaranteesystem?serverTimezone=UTC"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/guaranteesystem?serverTimezone=UTC&amp;useAffectedRows=true"></property>
     </bean>
 
     <!--整合mybatis-->
@@ -28,7 +28,7 @@
 
     <!--采用自动扫描方式，将mybatis的接口扫描到容器中-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.ssm.code.dao"></property>
+        <property name="basePackage" value="com.ssm.code"></property>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
         <property name="annotationClass" value="org.springframework.stereotype.Repository"></property>
     </bean>

@@ -2,15 +2,15 @@
 
 $(document).ready(function () {  
 
-	var url = "http://localhost:8080/GetRepairManServlet";
+	var url = "http://localhost:8080/repairMan/getAllRepairMan";
 	var args = {"time":new Date()}
 	$.getJSON(url, args, function(data){
 		var str = "";
 		
-		for(var k in data.data){
+		for(var k in data){
 			var major = "";
 			//将数据库中保存的工种参数，转换为文字
-			switch(data.data[k].major)
+			switch(data[k].major)
 			{
 			case 1:
 			  major = "水工";
@@ -26,7 +26,7 @@ $(document).ready(function () {
 			  break;
 			}
 			
-			str += "<li><img src='/imgs/repair_per.jpg'><p><span id='name' class='name'>" + data.data[k].username + "</span><span id='type' class='type'>工种：" + major + "</span><span id='phone' class='phone'>" + data.data[k].phone + "</span></p></li>";
+			str += "<li><img src='/imgs/repair_per.jpg'><p><span id='name' class='name'>" + data[k].username + "</span><span id='type' class='type'>工种：" + major + "</span><span id='phone' class='phone'>" + data[k].phone + "</span></p></li>";
 		}
 		$("#content").html(str);
 	});

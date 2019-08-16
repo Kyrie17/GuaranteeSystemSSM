@@ -29,7 +29,6 @@ public class ManageUserFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println(666);
 		HttpServletResponse resp=(HttpServletResponse)response;
 		/*
 		 * 设置响应编码

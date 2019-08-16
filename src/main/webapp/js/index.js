@@ -51,7 +51,7 @@
 // 判断图片是否为空
 //判断图片是否为空
 function check(a){
-	document.getElementById("form").action = "http://localhost:8080/SubmitRFServlet";
+	document.getElementById("form").action = "http://localhost:8080/repair/submitRepairForm";
 	var x = "?username=" + this.username.value + "&phone=" + this.phone.value + "&serType=" + this.serType.value + "&serAdd=" + this.serAdd.value + "&serInform=" + this.serInform.value + "&serTime=" + this.serTime.value + "&detailTime=" + this.detailTime.value;
 	var rp= x.replace('#','%23');
 	var rp1= rp.replace('A','%41');
@@ -91,7 +91,6 @@ function check(a){
 		swal("提示", "请填写维修时间!", "warning");
 		return false;
 	}else{
-		console.log("www = " + this.username.value);
 		swal({
 					title : "表单提交成功",
 					//text : "1秒后跳转主界面。",
@@ -99,12 +98,6 @@ function check(a){
 					showConfirmButton : false
 				});
 		setTimeout(function() {
-			
 			}, 10000);
 	}
-
 }
-
-
-
-

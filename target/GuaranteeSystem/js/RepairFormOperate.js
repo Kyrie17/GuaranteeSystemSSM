@@ -1,5 +1,4 @@
 
-	
 	// 第一页
 	function firstPage(){
 		document.getElementById("currentPage").innerHTML = "1";
@@ -10,7 +9,7 @@
 	function nextPage(){
 		var currentPage = document.getElementById("currentPage").innerHTML;
 		var totalPage = document.getElementById("totalPage").innerHTML;
-		if(currentPage < totalPage){
+		if(parseInt(currentPage) < parseInt(totalPage)){
 			var currentPage = parseInt(document.getElementById("currentPage").innerHTML) + 1;
 			document.getElementById("currentPage").innerHTML = "" + currentPage;
 			Filter();
@@ -53,14 +52,13 @@ function Filter(){
 		currentPage = 1;
 	}
 
-	var url = "http://localhost:8080/SublistServlet";
-	var args = {"time":new Date(),"username":"","pageNum":currentPage,"serType":"0"}
-	
-	
+	var url = "http://localhost:8080/repair/getAllRF";
+	var args = {"time":new Date(),"username":"","pageNum":currentPage,"serType":"0","judgeState":0}
+
 	
 	$.getJSON(url, args, function(data){
 		var str = "";	//每条记录
-		for(var k in data.data.dataList){
+		for(var k in data.repairForms){
 			var str2 = "";	//审核状态的下拉列表
 			var str3 = "";	//维修工的下拉列表
 			var str4 = "";	//更新的提交按钮
@@ -68,19 +66,19 @@ function Filter(){
 			var str6 = ""; 	//删除的提交按钮
 			
 			//删除的提交按钮
-			str5 = "<th><form action='http://localhost:8080/RFDeleteServlet' method='post'><input type='hidden' name='orderNumber' id='orderNumber' value='" + data.data.dataList[k].orderNumber + "'><button type='submit' style='cursor:pointer;'><img src='/imgs/delete.png' title='删除'></button></form></th>";
+			str5 = "<th><form action='http://localhost:8080/repair/removeRF' method='post'><input type='hidden' name='orderNumber' id='orderNumber' value='" + data.repairForms[k].orderNumber + "'><button type='submit' style='cursor:pointer;'><img src='/imgs/delete.png' title='删除'></button></form></th>";
 			
 			//详情的提交按钮
-			str6 = "<th><form action='' method='post'><input type='hidden' name='orderNumber' id='orderNumber' value='" + data.data.dataList[k].orderNumber + "'><button type='submit' style='cursor:pointer;'><img src='/imgs/xiangxi.png' title='详细'></button></form></tr></th>";
+			str6 = "<th><form action='#' method='post'><input type='hidden' name='orderNumber'><button disabled='true' type='submit' style='cursor:pointer;'><img src='/imgs/xiangxi.png' title='详细'></button></form></tr></th>";
 			
 			//更新的提交按钮					
-			str4 = "<input type='hidden' name='orderNumber' id='orderNumber' value='" + data.data.dataList[k].orderNumber + "'><button type='submit' style='cursor:pointer;'><img src='/imgs/updata.png' title='更新' class='updata'></button>";
+			str4 = "<input type='hidden' name='orderNumber' id='orderNumber' value='" + data.repairForms[k].orderNumber + "'><button type='submit' style='cursor:pointer;'><img src='/imgs/updata.png' title='更新' class='updata'></button>";
 			
 			//将数据库中保存的报修类型参数，转换为下拉链表
-			str3 = getRepairMan(data.data.dataList[k].serType, data.data.dataList[k].repairMan);
+			str3 = getRepairMan(data.repairForms[k].serType, data.repairForms[k].repairMan);
 			
 			var serType = "";
-			switch(data.data.dataList[k].serType)
+			switch(data.repairForms[k].serType)
 			{
 			case 1:
 			  serType = "水";
@@ -98,7 +96,7 @@ function Filter(){
 			
 			//将数据库中保存的审核状态参数，转换为下拉链表
 			var judgeState = "";
-			switch(data.data.dataList[k].judgeState)
+			switch(data.repairForms[k].judgeState)
 			{
 			case -1:
 				str2  += "<select name='judgeState' class='through'><option value='-1' selected='selected'>未审核</option><option value='1'>已审核</option><option value='2'>已完成</option></select>";
@@ -110,20 +108,21 @@ function Filter(){
 				str2  += "<select name='judgeState' class='through'><option value='-1'>未审核</option><option value='1'>已审核</option><option value='2' selected='selected'>已完成</option></select>";
 			  break;
 			}
-			str += "<tr><th id='number' name='number'>" + data.data.dataList[k].orderNumber + "</th>"
-			+ "<th id='student_id' name='student_id'>" + data.data.dataList[k].username + "</th>"
-			+ "<th id='phone name='phone'>" + data.data.dataList[k].phone + "</th>"
+			str += "<tr><th id='number' name='number'>" + data.repairForms[k].orderNumber + "</th>"
+			+ "<th id='student_id' name='student_id'>" + data.repairForms[k].username + "</th>"
+			+ "<th id='phone name='phone'>" + data.repairForms[k].phone + "</th>"
 			+ "<th id='type' name='type'>" + serType + "</th>"
-			+ "<th class='operate'><form action='http://localhost:8080/RFUpdateServlet' method='post' class='print'>" + "<input type='hidden' name='orderNumber' id='orderNumber' value='" + data.data.dataList[k].orderNumber + "'>" + str2 + str3 + str4 + "</form></th>"
+			+ "<th class='operate'><form action='http://localhost:8080/repair/rfUpdate' method='post' class='print'>" + str2 + str3 + str4 + "</form></th>"
+				//"<input type='hidden' name='orderNumber' id='orderNumber' value='" + data.repairForms[k].orderNumber + "'>" +
 			+ str5
 			+ str6;
 			
 		}
 		
 		$("#content").html(str);
-		$("#currentPage").text(data.data.currentPage);
-		$("#totalRecord").text(data.data.totalRecord);
-		$("#totalPage").text(data.data.totalPage);
+		$("#currentPage").text(data.currentPage);
+		$("#totalRecord").text(data.total);
+		$("#totalPage").text(data.totalPage);
 	}); 
 }
 
@@ -135,28 +134,28 @@ function getRepairMan(serType, repairMan){
 	
 	 $.ajax({
          type: "GET",
-         url: "http://localhost:8080/GetRepairManServlet",
+         url: "http://localhost:8080/repairMan/getRepairManBySerType",
          data: {"time":new Date(), "serType":serType},
          async: false,	//设置同步，等待ajax请求返回的结果
          dataType: "json",
          success: function(data){
         	 
-        	 for(var j in data.data){
+        	 for(var j in data){
         		 
      			if(repairMan.length != 0){
      				
-     				if(repairMan == data.data[j].username){
+     				if(repairMan == data[j].username){
      					
-     					str += "<option selected='selected' value='" + data.data[j].username +"'>" + data.data[j].username + "</option>";
+     					str += "<option selected='selected' value='" + data[j].username +"'>" + data[j].username + "</option>";
      					
      				}else{
      					
-     					str += "<option value='" + data.data[j].username +"'>" + data.data[j].username + "</option>";
+     					str += "<option value='" + data[j].username +"'>" + data[j].username + "</option>";
      					
      				}
      			}else{
      				
-     				str += "<option value='" + data.data[j].username +"'>" + data.data[j].username + "</option>";
+     				str += "<option value='" + data[j].username +"'>" + data[j].username + "</option>";
      				
      			}
      		}
