@@ -1,14 +1,22 @@
 package com.ssm.code.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ssm.code.dao.ScoreMapper;
+import com.ssm.code.pojo.AnswerScore;
+import com.ssm.code.pojo.RepairForm;
 import com.ssm.code.pojo.Score;
 import com.ssm.code.service.ScoreService;
+import com.ssm.code.tools.CommonUtils;
+import com.ssm.code.tools.Constant;
+import com.ssm.code.tools.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * ScoreServiceImpl class
@@ -53,5 +61,54 @@ public class ScoreServiceImpl implements ScoreService {
         }else{
             return -1;
         }
+    }
+
+    @Override
+    public AnswerScore getScoreByRM(String token, String pageNumStr) {
+
+        String repairMan = "";
+        try {
+            repairMan = CommonUtils.parseJWT(token).getSubject();
+        } catch (Exception e) {
+            return null;
+        }
+
+        // 校验pageNum参数输入合法性
+        if(pageNumStr !=null && !StringUtil.isNum(pageNumStr)){
+            return null;
+        }
+
+        //显示第几页数据
+        int pageNum = Constant.DEFAULT_PAGE_NUM;
+        if(pageNumStr!=null && !"".equals(pageNumStr.trim())){
+            pageNum = Integer.parseInt(pageNumStr);
+        }
+
+        PageHelper.startPage(pageNum, Constant.DEFAULT_PAGE_SIZE);
+        List<Score> list = scoreMapper.getScoreByRM(repairMan);
+        PageInfo<Score> pageInfo = new PageInfo<>(list, 5);
+
+        int currentPage = pageInfo.getPageNum();
+        //获取总页数
+        int totalPage = pageInfo.getPages();
+        //总记录数
+        long total = pageInfo.getTotal();
+        //封装对象
+        return new AnswerScore(list, currentPage, totalPage, total);
+    }
+
+    @Override
+    public double getAvgByRM(String token) {
+
+        String repairMan = "";
+        try {
+            repairMan = CommonUtils.parseJWT(token).getSubject();
+        } catch (Exception e) {
+            return 0;
+        }
+
+        double m = scoreMapper.getAvgByRM(repairMan);
+
+        return m;
     }
 }

@@ -3,8 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssm.code.dao.ScoreMapper">
+
+    <resultMap id="scoreResultMap" type="com.ssm.code.pojo.Score">
+        <id column="r_ordernumber" property="rOrdernumber"/>
+        <result column="satisfied" property="satisfied"/>
+        <result column="suggest" property="suggest"/>
+        <result column="score" property="score"/>
+        <result column="flag" property="flag"/>
+        <result column="repairman" property="repairman"/>
+        <result column="username" property="username"/>
+        <result column="time" property="time"/>
+    </resultMap>
+
     <insert id="insertScore" >
         insert into score (satisfied , suggest , score , flag , username , repairman ,time,r_ordernumber)
          values(#{Score.satisfied},#{Score.suggest},#{Score.score},#{Score.flag},#{Score.username},#{Score.repairman},#{Score.time},#{Score.rOrdernumber})
     </insert>
+
+    <select id="getScoreByRM" resultMap="scoreResultMap">
+        select * from score where repairman=#{repairMan}
+    </select>
+
+    <select id="getAvgByRM" resultType="Double">
+        SELECT avg(score) FROM score where repairman=#{repairMan} GROUP BY repairman
+    </select>
 </mapper>

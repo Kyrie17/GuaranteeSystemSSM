@@ -11,18 +11,18 @@ $(document).ready(function () {
 
 function Filter(){
 	
-	var url = "http://localhost:8080/GetScoreByRm";
-	var args = {"time":new Date(),"username":"卓泰","pageNum":currentPage};
+	var url = "http://localhost:8080/worker/getScoreByRM";
+	var args = {"time":new Date(),"token": getCookie("worker_cookie"),"pageNum":currentPage};
 	$.getJSON(url, args, function(data){
 		
-			if(currentPage > data.data.totalPage){
+			if(currentPage > data.totalPage){
 				document.getElementById("test1").innerHTML = "<div style='text-align:center;'>已经到底了~</div>";
 				
 			}else{
-				for(var k in data.data.dataList){
+				for(var k in data.scores){
 				var str = "";
 				var str2 = "";
-				var score = data.data.dataList[k].score;
+				var score = data.scores[k].score;
 				var j = 0;
 				while(j < score){
 					str2 += "<li><img src='/imgs/xingxing.png'></li>";
@@ -32,14 +32,14 @@ function Filter(){
 				str += "<div class='stu_advice_box'>"
 				+ "<img src='/imgs/repair_per.jpg' class='stu_top'>"
 				+ "<div class='stu_use'>"
-				+	"<span class='stuName'>" + data.data.dataList[k].username + "</span>"
+				+	"<span class='stuName'>" + data.scores[k].username + "</span>"
 				+	"<ul class='xingxing_tit'>"
 				+	str2
 				+	"</ul>"
 				+"</div>"
-				+"<span class='repair_data'>" + data.data.dataList[k].time + "</span>"
+				+"<span class='repair_data'>" + data.scores[k].time + "</span>"
 				+"<div class='suggest'>"
-				+	"<span class='suggest_con'>" + data.data.dataList[k].suggest + "</span>"
+				+	"<span class='suggest_con'>" + data.scores[k].suggest + "</span>"
 				+"</div>"
 			+"</div>";
 				$("#test").append(str);
@@ -83,8 +83,8 @@ $(window).scroll(function () {
 	
 	function getAvg(){
 		
-		var url = "http://localhost:8080/GetAvgByRmServlet";
-		var args = {"time":new Date(),"username":"卓泰"};
+		var url = "http://localhost:8080/worker/getAvgByRM";
+		var args = {"time":new Date(),"token": getCookie("worker_cookie")};
 		$.getJSON(url, args, function(data){
 			
 			document.getElementById("grade").innerHTML = data.code;
@@ -99,5 +99,17 @@ $(window).scroll(function () {
 		});
 		
 	}
-	
+
+function getCookie(name) {
+    var strcookie = document.cookie;//获取cookie字符串
+    var arrcookie = strcookie.split("; ");//分割
+    //遍历匹配
+    for (var i = 0; i < arrcookie.length; i++) {
+        var arr = arrcookie[i].split("=");
+        if (arr[0] == name) {
+            return arr[1];
+        }
+    }
+    return "";
+}
 	

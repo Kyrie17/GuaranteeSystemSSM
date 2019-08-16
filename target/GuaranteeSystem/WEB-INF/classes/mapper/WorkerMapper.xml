@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.code.dao.WorkerMapper">
+
+    <resultMap id="repairFormResultMap" type="com.ssm.code.pojo.RepairForm">
+        <id column="r_ordernumber" property="orderNumber"/>
+        <result column="s_id" property="username"/>
+        <result column="s_phone" property="phone"/>
+        <result column="r_sertype" property="serType"/>
+        <result column="r_seradd" property="serAdd"/>
+        <result column="r_serinform" property="serInform"/>
+        <result column="r_sertime" property="serTime"/>
+        <result column="r_detailtime" property="detailTime"/>
+        <result column="r_judgestate" property="judgeState"/>
+        <result column="a_id" property="repairMan"/>
+        <result column="r_submittime" property="submitTime"/>
+        <result column="r_userconfirm" property="userConfirm"/>
+        <result column="r_filepath" property="file_path"/>
+    </resultMap>
+
+    <select id="getRFByRepairMan" resultMap="repairFormResultMap">
+        SELECT * FROM repairform WHERE a_id=#{repariMan}
+    </select>
+
+    <update id="changeJudgeState">
+        update repairform set r_judgeState=#{judgeState} where r_ordernumber=#{orderNumber}
+    </update>
+
+</mapper>

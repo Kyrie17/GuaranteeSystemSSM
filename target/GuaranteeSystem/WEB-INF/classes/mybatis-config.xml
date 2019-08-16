@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <settings>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+
     <!--配置分页插件-->
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor">
@@ -33,5 +39,8 @@
         <mapper resource="/mapper/RepairFormMapper.xml"></mapper>
         <!-- 获取维修工人 -->
         <mapper resource="/mapper/RepairManMapper.xml"></mapper>
+        <!-- 工人端 -->
+        <mapper resource="/mapper/WorkerMapper.xml"></mapper>
     </mappers>
+
 </configuration>
