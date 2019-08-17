@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ssm.code.dao.ScoreMapper;
 import com.ssm.code.pojo.AnswerScore;
-import com.ssm.code.pojo.RepairForm;
 import com.ssm.code.pojo.Score;
 import com.ssm.code.service.ScoreService;
 import com.ssm.code.tools.CommonUtils;

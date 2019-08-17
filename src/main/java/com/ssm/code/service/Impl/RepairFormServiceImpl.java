@@ -12,6 +12,7 @@ import com.ssm.code.tools.Constant;
 import com.ssm.code.tools.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ import java.util.List;
  * @date 2019/8/11
  */
 @Service
+@Transactional
 public class RepairFormServiceImpl implements RepairFormService {
 
     @Autowired
@@ -46,6 +48,7 @@ public class RepairFormServiceImpl implements RepairFormService {
     }
 
     @Override
+    @Transactional
     public int submitRepairForm(RepairForm repairForm, HttpServletRequest request) {
 
         int orderNumber = 0;

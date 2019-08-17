@@ -11,12 +11,14 @@ import com.ssm.code.service.PersonCenterService;
 import com.ssm.code.tools.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class PersonCenterServiceImpl implements PersonCenterService {
 
     @Autowired
