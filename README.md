@@ -1,5 +1,5 @@
 # GuaranteeSystemSSM
-### 在原有GuaranteeSystem上使用SSM重构。
+#### 在原有GuaranteeSystem上使用SSM重构。
 ![homepage01](/img/homepage01.png)
 
 ----
@@ -21,8 +21,12 @@
 10. 报修信息：按照报修时间顺序排列；
 11. 年度总结：按照数据统计分析出属于每个学生的独一无二的年度总结（未实现）。
 
+### 注册登录界面
 ![homepage01](/img/student_login.png)
+### 主页
 ![homepage01](/img/homepage02.png)
 ![homepage01](/img/homepage03.png)
+### 管理员端
 ![homepage01](/img/manager_index.png)
+### 维修工人端
 ![homepage01](/img/worker_index.png)
