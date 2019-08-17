@@ -1,12 +1,12 @@
 # GuaranteeSystemSSM
-- 在原有GuaranteeSystem上使用SSM重构。
-- 主要实现和完善了学生宿舍报修的功能
-- 有三个端 -- 学生端 管理端 工人端
+### 在原有GuaranteeSystem上使用SSM重构。
 ![homepage01](/img/homepage01.png)
+
+----
 
 #### 项目需求：面对广金学生建立一个线上报修网站，解决线下报修难、报修慢的问题。旨在使学生能在短时间内完成线上报修报修并实时跟进。
 #### 作品主题：后勤报修系统
-#### 技术：javaweb、ajax等
+#### 技术：SSM框架等
 #### 插件：echarts、sweetalert等
 #### 功能：
 1. 登录注册界面：自动识别不正确的输入和不正确的注册格式；手机验证码注册；支持密码修改；
@@ -20,3 +20,9 @@
 9. 公告信息：发布重要后勤维修公告；
 10. 报修信息：按照报修时间顺序排列；
 11. 年度总结：按照数据统计分析出属于每个学生的独一无二的年度总结（未实现）。
+
+![homepage01](/img/student_login.png)
+![homepage01](/img/homepage02.png)
+![homepage01](/img/homepage03.png)
+![homepage01](/img/manager_index.png)
+![homepage01](/img/worker_index.png)
